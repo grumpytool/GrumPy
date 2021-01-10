@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %} Grumpy {% endblock %}
+
+
+{% block title_page %}Issues{% endblock %}
+
+
+{% block import_css %}
+<!-- Custom styles for this page -->
+<link href="../../static/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+<link href="../../static/css/style.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block issues_active %}active{% endblock %}
+
+{% block content %}
+<h3>
+        <span class="js-issue-title m-0 font-weight-bold text-primary">
+            {{Issue.title}}
+        </span>
+    <span class="f1-light text-gray-light">#{{Issue.id}}</span>
+</h3>
+
+<div class="row">
+
+    <div class="col-lg-8">
+        {% if Issue.status == 'open' %}
+            <a href="#" class="btn btn-success ">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-fw fa-exclamation-circle"></i>
+                    </span>
+                <span class="text">{{ Issue.status }}</span>
+            </a>
+         {% endif %}
+
+        {% if Issue.status == 'closed' %}
+            <a href="#" class="btn btn-danger ">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-fw fa-exclamation-circle"></i>
+                    </span>
+                    <span class="text">{{ Issue.status }}</span>
+            </a>
+         {% endif %}
+
+        </a>
+
+        <span> Issue created by </span>
+        <span><b>{{ Issue.author }}</b></span>
+        <span>on </span>
+        <span>{{ Issue.createdAt }}</span> ·
+        <span>{{ Issue.amountComment }}</span>
+        <span>comment(s)</span>
+        <span> <a href="{{ Issue.githubURL }}" >Go to Github </a></span>
+
+        <hr>
+
+        <!-- Default Card Example -->
+        <div class="card mb-4">
+            <div class="card-header">
+                {{ Issue.author }} says in {{ Issue.createdAt }}
+            </div>
+            <div class="card-body">
+                {{ Issue.body }}
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-1">
+                        {{ Issue.reactions.like }} <span>&#128077;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.deslike }} <span>&#128078;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.laught }} <span>&#128516;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.hooray  }} <span>&#127881;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.confused }} <span>&#128533;</span>
+                    </div>
+
+                    <div class="col-1">
+                        {{ Issue.reactions.heart }} <span>&#129505;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.rocket }} <span>&#128640;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ Issue.reactions.eyes  }} <span>&#128064;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% for comment in Issue.issueComments %}
+
+        <!-- Default Card Example -->
+        <div class="card mb-4">
+            <div class="card-header">
+                {{ comment.author }} comment in {{ comment.created_at }}
+            </div>
+            <div class="card-body">
+                {{ comment.text }}
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-1">
+                        {{ comment.reactions.like }} <span>&#128077;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.deslike }} <span>&#128078;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.laught }} <span>&#128516;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.hooray  }} <span>&#127881;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.confused }} <span>&#128533;</span>
+                    </div>
+
+                    <div class="col-1">
+                        {{ comment.reactions.heart }} <span>&#129505;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.rocket }} <span>&#128640;</span>
+                    </div>
+                    <div class="col-1">
+                        {{ comment.reactions.eyes  }} <span>&#128064;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <div class="col">
+        <!-- Basic Card Example -->
+        <div class="card shadow mb">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">All Events</h6>
+            </div>
+            <div class="card-body">
+                <ul class="timeline">
+                    {% for event in Issue.issueEvent %}
+
+                    <li>
+                        <a target="_blank"><strong> {{ event.event }} </strong> </a>
+                        <a href="#" class="float-right">{{ event.created_at }}</a>
+                        <p><i><strong> Author: </strong> {{ event.author }} </i></p>
+                        {% if event.event == 'LABELED' %}
+                            <p><i><strong> Label: </strong> {{ event.label }} </i></p>
+                        {%endif %}
+
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block import_script %}
+<!--IMPORT SCRIPTS -->
+
+<!-- Page level plugins -->
+<script src="../../static/vendor/datatables/jquery.dataTables.min.js"></script>
+<script src="../../static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+<!-- Page level custom scripts -->
+<script src="../../static/js/demo/datatables-demo.js"></script>
+
+
+<script src="../../static/js/script.js"></script>
+
+{% endblock %}
